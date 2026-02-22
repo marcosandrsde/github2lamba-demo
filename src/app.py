@@ -7,8 +7,8 @@ def lambda_handler(event, context):
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "message": "¡Hola desde GitHub Actions!",
+            "message": "Versión 2.0 desplegada AUTOMÁTICAMENTE!",
             "timestamp": current_time,
-            "version": "v1"
+            "version": "v2"
         })
     }
