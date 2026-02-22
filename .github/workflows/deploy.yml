@@ -1,0 +1,37 @@
+name: Deploy Demo Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          
+      - uses: aws-actions/setup-sam@v2
+      
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Build and Deploy
+        run: |
+          # 1. Preparar el paquete
+          sam build
+
+          # 2. Desplegar a AWS
+          # --stack-name: Es el nombre que tendrá tu proyecto en AWS CloudFormation
+          # --resolve-s3: Crea un bucket automático para subir el código
+          sam deploy --no-confirm-changeset --no-fail-on-empty-changeset \
+            --stack-name demo-github-actions-stack \
+            --capabilities CAPABILITY_IAM \
+            --resolve-s3

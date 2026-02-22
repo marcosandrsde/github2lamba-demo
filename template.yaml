@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Demo de despliegue automatico con GitHub Actions
+
+Resources:
+  DemoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      MemorySize: 128
+      Timeout: 3
+      Description: Una funcion de prueba desplegada desde GitHub
+
+Outputs:
+  DemoFunctionArn:
+    Description: "ARN de la Lambda Demo"
+    Value: !GetAtt DemoFunction.Arn
